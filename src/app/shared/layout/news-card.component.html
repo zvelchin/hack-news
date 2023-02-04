@@ -1,0 +1,11 @@
+<div *ngIf="item !== undefined" class="card">
+  <div class="card-content">
+    <span class="news-author">{{ item.author }}</span>
+    <div class="news-content">
+      <span>{{ item.num_comments }} comments</span>
+      <span>{{ item.points }} points</span>
+      <a target="_blank" *ngIf="item.url" [href]="item.url">follow the link</a>
+    </div>
+  </div>
+  <button (click)="goToDetailPage()" type="button" mat-raised-button color="primary">More detailed</button>
+</div>

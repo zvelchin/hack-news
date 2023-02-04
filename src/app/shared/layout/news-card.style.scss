@@ -1,0 +1,55 @@
+@import '../../../assets/styles/variables.scss';
+
+.card {
+  background: $card-background-color;
+  padding: 19px 15px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  transition: all 0.2s ease-in-out;
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  .news-author {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 28px;
+    color: $card-text;
+    margin-bottom: 23px;
+  }
+
+  .news-content {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: $card-text !important;
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    a {
+      color: $card-text !important;
+    }
+  }
+}
+
+:host ::ng-deep .mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary {
+  background: #4464b5 !important;
+}

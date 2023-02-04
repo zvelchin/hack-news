@@ -1,0 +1,41 @@
+<div class="detail-news-content">
+  <mat-spinner *ngIf="loading" class="spinner"></mat-spinner>
+
+  <div *ngIf="!loading" class="detail-news-info">
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <mat-tree-node
+        *matTreeNodeDef="let node"
+        matTreeNodePadding
+        class="no-child"
+      >
+        <div class="tree-content">
+          <span class="author" *ngIf="node.author"> {{ node.author }}</span>
+          <div *ngIf="node.text" [innerHTML]="node.text"></div>
+        </div>
+      </mat-tree-node>
+
+      <mat-tree-node
+        *matTreeNodeDef="let node; when: hasChild"
+        matTreeNodePadding
+        class="has-child"
+      >
+        <div class="tree-content">
+          <button
+            mat-icon-button
+            matTreeNodeToggle
+            [attr.aria-label]="'Toggle ' + node.author"
+          >
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{
+                treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'
+              }}
+            </mat-icon>
+          </button>
+          <span class="author" *ngIf="node.author">{{ node.author }}</span>
+        </div>
+
+        <div *ngIf="node.text" [innerHTML]="node.text"></div>
+      </mat-tree-node>
+    </mat-tree>
+  </div>
+</div>
