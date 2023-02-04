@@ -1,0 +1,67 @@
+@import '../assets/styles/variables.scss';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0 50px;
+
+  .header {
+    position: fixed;
+    background: $header-background-color;
+    padding: 16px 50px;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      font-weight: 500;
+      color: $header-text;
+      cursor: pointer;
+
+      img {
+        margin-right: 5px;
+      }
+    }
+
+    .header-nav {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      span {
+        font-weight: 400;
+        color: $header-text;
+        font-size: 16px;
+        cursor: pointer;
+        margin-right: 60px;
+        text-underline-position: under;
+
+        &:hover {
+          color: $header-text-hover;
+          text-decoration: underline;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  .main {
+    flex-grow: 1;
+    margin-top: 65px;
+  }
+
+  .footer {
+    padding: 16px 0;
+    background: $footer-background-color;
+    margin: 0 -50px;
+  }
+}

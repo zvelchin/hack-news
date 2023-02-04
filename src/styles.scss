@@ -1,1 +1,41 @@
-/* You can add global styles to this file, and also import other style files */
+@import './assets/styles/variables.scss';
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
+
+@font-face {
+  font-family: 'SF UI Display';
+  font-weight: 400;
+  src: url('./assets/font/sf-ui-display-regular.ttf') format('truetype'); /* IE6-IE8 */
+}
+
+@font-face {
+  font-family: 'SF UI Display';
+  font-weight: 500;
+  src: url('./assets/font/sf-ui-display-medium.ttf') format('truetype'); /* IE6-IE8 */
+}
+
+@font-face {
+  font-family: 'SF UI Display';
+  font-weight: 600;
+  src: url('./assets/font/sf-ui-display-semibold.ttf') format('truetype'); /* IE6-IE8 */
+}
+
+@font-face {
+  font-family: 'SF UI Display';
+  font-weight: 700;
+  src: url('./assets/font/sf-ui-display-bold.ttf') format('truetype'); /* IE6-IE8 */
+}
+
+* {
+  font-family: $font;
+}
+
+a {
+  color: yellow;
+}
