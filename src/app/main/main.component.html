@@ -1,6 +1,6 @@
 <div class="news-content">
   <mat-spinner *ngIf="loading" class="spinner"></mat-spinner>
-  <div *ngIf="!loading" class="news-list">
+  <div *ngIf="!loading && news.hits?.length" class="news-list">
     <ng-container *ngFor="let item of news.hits">
       <news-card class="news-card" [item]="item"></news-card>
     </ng-container>

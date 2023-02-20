@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponseBase } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 export interface IDetailNews {
   author: string;
@@ -26,17 +26,24 @@ export class NewsAPI {
   constructor(private _http: HttpClient) {}
 
   getAll(page: number): Observable<INews> {
-    return this._http.get<INews>(
-      `http://hn.algolia.com/api/v1/search?tags=front_page`,
-      {
+    return this._http
+      .get<INews>(`http://hn.algolia.com/api/v1/search?tags=front_page`, {
         params: { page },
-      },
-    );
+      })
+      .pipe(
+        catchError((res: HttpResponseBase) => {
+          return throwError(() => new Error(res.statusText));
+        }),
+      );
   }
 
   getNewsForDetailPage(id: number): Observable<IDetailNews> {
-    return this._http.get<IDetailNews>(
-      `http://hn.algolia.com/api/v1/items/${id}`,
-    );
+    return this._http
+      .get<IDetailNews>(`http://hn.algolia.com/api/v1/items/${id}`)
+      .pipe(
+        catchError((res: HttpResponseBase) => {
+          return throwError(() => new Error(res.statusText));
+        }),
+      );
   }
 }

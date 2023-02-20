@@ -28,9 +28,14 @@ export class MainComponent implements OnInit, OnDestroy {
   getNewsList(event?: PageEvent): void {
     this.subscribe = this._newsService
       .getAll(event?.pageIndex ? event.pageIndex : 0)
-      .subscribe((value) => {
-        this.news = value;
-        this.loading = false;
+      .subscribe({
+        next: (value) => {
+          this.news = value;
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+        },
       });
   }
 }

@@ -65,10 +65,14 @@ export class DetailNewsComponent implements OnInit, OnDestroy {
   getNewsForDetailPage(): void {
     this.subscribe = this._newsService
       .getNewsForDetailPage(+this._activatedRoute.snapshot.queryParams['id'])
-      .subscribe((value) => {
-        this.dataSource.data = [value];
-
-        this.loading = false;
+      .subscribe({
+        next: (value) => {
+          this.dataSource.data = [value];
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+        },
       });
   }
 }
