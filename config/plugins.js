@@ -6,6 +6,12 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const mf = require('@angular-architects/module-federation/webpack');
+const share = mf.share;
+
+const sharedMappings = new mf.SharedMappings();
+sharedMappings.register(path.join(__dirname, '../tsconfig.json'), []);
 
 module.exports = function (mode) {
   const IS_DEV = mode === 'development';
@@ -52,6 +58,39 @@ module.exports = function (mode) {
       /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
       path.resolve(__dirname, '../src'),
     ),
+    new ModuleFederationPlugin({
+      remotes: {},
+
+      shared: share({
+        '@angular/core': {
+          requiredVersion: 'auto',
+          eager: true,
+          singleton: true,
+        },
+        '@angular/common': {
+          requiredVersion: 'auto',
+          eager: true,
+          singleton: true,
+        },
+        '@angular/common/http': {
+          requiredVersion: 'auto',
+          eager: true,
+          singleton: true,
+        },
+        '@angular/router': {
+          requiredVersion: 'auto',
+          eager: true,
+          singleton: true,
+        },
+        '@angular/forms': {
+          requiredVersion: 'auto',
+          eager: true,
+          singleton: true,
+        },
+
+        ...sharedMappings.getDescriptors(),
+      }),
+    }),
   ];
 
   if (IS_DEV) {

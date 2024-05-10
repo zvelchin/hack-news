@@ -28,7 +28,7 @@ export class NewsService {
   /** News List */
   public getAll(page: number): Observable<INews> {
     return this._http
-      .get<INews>(`http://hn.algolia.com/api/v1/search?tags=front_page`, {
+      .get<INews>(`/api/v1/search?tags=front_page`, {
         params: { page },
       })
       .pipe(
@@ -40,12 +40,10 @@ export class NewsService {
 
   /** News Info */
   public getNewsForDetailPage(id: number): Observable<IDetailNews> {
-    return this._http
-      .get<IDetailNews>(`http://hn.algolia.com/api/v1/items/${id}`)
-      .pipe(
-        catchError((res: HttpResponseBase) => {
-          return throwError(() => new Error(res.statusText));
-        }),
-      );
+    return this._http.get<IDetailNews>(`/api/v1/items/${id}`).pipe(
+      catchError((res: HttpResponseBase) => {
+        return throwError(() => new Error(res.statusText));
+      }),
+    );
   }
 }
