@@ -59,8 +59,6 @@ module.exports = function (mode) {
       path.resolve(__dirname, '../src'),
     ),
     new ModuleFederationPlugin({
-      remotes: {},
-
       shared: share({
         '@angular/core': {
           requiredVersion: 'auto',

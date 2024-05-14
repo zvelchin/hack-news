@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DetailNewsComponent } from '@main/detail-news/detail-news.component';
 import { MainComponent } from '@main/main.component';
+import { loadRemoteModule } from '@angular-architects/module-federation';
 
 const routes: Routes = [
   {
@@ -11,6 +12,15 @@ const routes: Routes = [
   {
     path: 'detail-news',
     component: DetailNewsComponent,
+  },
+  {
+    path: 'test',
+    loadChildren: () =>
+      loadRemoteModule({
+        remoteName: 'test',
+        remoteEntry: 'http://localhost:4200/remoteEntry.js',
+        exposedModule: './TestModule',
+      }).then((m) => m.TestModule),
   },
   {
     path: '**',
