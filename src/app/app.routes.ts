@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
+import { loadRemoteModule } from '@angular-architects/module-federation';
 import { RouterModule, Routes } from '@angular/router';
 import { DetailNewsComponent } from '@main/detail-news/detail-news.component';
 import { MainComponent } from '@main/main.component';
-import { loadRemoteModule } from '@angular-architects/module-federation';
+import { NotFoundComponent } from './not-found/not-found.component';
 
-const routes: Routes = [
+export const appRoutes: Routes = [
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
   {
     path: 'main',
     component: MainComponent,
@@ -22,16 +23,11 @@ const routes: Routes = [
         exposedModule: './TestModule',
       }).then((m) => m.TestModule),
   },
+  { path: '404', component: NotFoundComponent },
   {
     path: '**',
-    redirectTo: '/main',
+    redirectTo: '404',
   },
 ];
 
-@NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
-  ],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
+export const AppRoutingModule = RouterModule.forRoot(appRoutes);

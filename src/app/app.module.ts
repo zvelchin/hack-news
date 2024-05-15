@@ -6,8 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { DetailNewsModule } from '@main/detail-news/detail-news.module';
 import { MainModule } from '@main/main.module';
 import { NewsService } from '@services/news.service';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NotFoundModule } from './not-found/not-found.module';
+import { AppRoutingModule } from './app.routes';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +20,7 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     MainModule,
     DetailNewsModule,
+    NotFoundModule,
   ],
   providers: [NewsService],
   bootstrap: [AppComponent],
