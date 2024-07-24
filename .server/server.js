@@ -7,6 +7,7 @@ const http = require('http');
 
 const app = express();
 const apiUrl = 'http://hn.algolia.com/api';
+const mfUrl = 'http://localhost:4200';
 
 const port = 3000;
 
@@ -19,6 +20,20 @@ app.use('/api', async (req, res, next) => {
     const response = await axios({
       method: req.method,
       url: apiUrl + req.url,
+      data: req.body,
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    res.send(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+});
+app.use('/mf', async (req, res, next) => {
+  try {
+    const response = await axios({
+      method: req.method,
+      url: mfUrl + req.url,
       data: req.body,
       headers: { 'Content-Type': 'application/json' },
     });
