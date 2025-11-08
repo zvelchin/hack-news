@@ -11,7 +11,7 @@ const mf = require('@angular-architects/module-federation/webpack');
 const share = mf.share;
 
 const sharedMappings = new mf.SharedMappings();
-sharedMappings.register(path.join(__dirname, '../tsconfig.json'), []);
+sharedMappings.register(path.join(__dirname, '../tsconfig.app.json'), []);
 
 module.exports = function (mode) {
   const IS_DEV = mode === 'development';
@@ -34,20 +34,17 @@ module.exports = function (mode) {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'src/assets', to: 'src/assets' },
-        {
-          from: 'node_modules/@angular/material/prebuilt-themes/purple-green.css',
-          to: 'styles',
-        },
+        { from: 'src/assets', to: 'assets' },
+        { from: 'src/title-logo.svg', to: '' },
       ],
     }),
     new ForkTsCheckerWebpackPlugin({
       typescript: {
-        configFile: path.resolve(__dirname, '../tsconfig.json'),
+        configFile: path.resolve(__dirname, '../tsconfig.app.json'),
       },
     }),
     new AngularWebpackPlugin({
-      tsconfig: path.resolve(__dirname, '../tsconfig.json'),
+      tsconfig: path.resolve(__dirname, '../tsconfig.app.json'),
     }),
     new webpack.ProgressPlugin(),
     new webpack.ContextReplacementPlugin(

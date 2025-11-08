@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponseBase } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpResponseBase } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 
@@ -25,20 +25,20 @@ export interface INews {
 export class NewsService {
   constructor(private _http: HttpClient) {}
 
-  /** News List */
-  public getAll(page: number): Observable<INews> {
-    return this._http
-      .get<INews>(`/api/v1/search?tags=front_page`, {
-        params: { page },
-      })
-      .pipe(
-        catchError((res: HttpResponseBase) => {
-          return throwError(() => new Error(res.statusText));
-        }),
-      );
+  /** News List
+   * @param page - number of page
+   */
+  public getAll(page: number): Observable<HttpEvent<INews>> {
+    return this._http.get<INews>(`/api/v1/search?tags=front_page`, {
+      params: { page },
+      reportProgress: true,
+      observe: 'events',
+    });
   }
 
-  /** News Info */
+  /** News Info
+   * @param id - id of news
+   */
   public getNewsForDetailPage(id: number): Observable<IDetailNews> {
     return this._http.get<IDetailNews>(`/api/v1/items/${id}`).pipe(
       catchError((res: HttpResponseBase) => {

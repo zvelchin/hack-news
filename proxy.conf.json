@@ -1,0 +1,20 @@
+{
+  "/api/": {
+    "target": "http://hn.algolia.com/api",
+    "secure": false,
+    "pathRewrite": {
+      "^/api/": "/"
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/mf/": {
+    "target": "http://localhost:4200",
+    "secure": false,
+    "pathRewrite": {
+      "^/mf/": "/"
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

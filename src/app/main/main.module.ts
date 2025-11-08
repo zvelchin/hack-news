@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NewsCardModule } from '@shared/layout/news-card.module';
 import { MainComponent } from './main.component';
 
@@ -12,6 +13,7 @@ import { MainComponent } from './main.component';
     NewsCardModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
 })
 export class MainModule {}

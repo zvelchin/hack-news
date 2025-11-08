@@ -1,6 +1,7 @@
 const path = require('path');
 const plugins = require('./config/plugins');
 const loaders = require('./config/loaders');
+const proxyConfig = require(path.resolve(__dirname, 'proxy.conf.json'));
 
 module.exports = async function (mode) {
   const IS_DEV = mode === 'development';
@@ -9,7 +10,14 @@ module.exports = async function (mode) {
     entry: {
       polyfills: path.resolve(__dirname, 'src/polyfills.ts'),
       vendor: path.resolve(__dirname, 'src/vendor.ts'),
-      app: path.resolve(__dirname, 'src/main.ts'),
+      main: path.resolve(__dirname, 'src/main.ts'),
+      styles: [
+        path.resolve(
+          __dirname,
+          'node_modules/@angular/material/prebuilt-themes/purple-green.css',
+        ),
+        path.resolve(__dirname, 'src/styles.scss'),
+      ],
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -18,6 +26,13 @@ module.exports = async function (mode) {
       assetModuleFilename: ({ module }) =>
         module.resourceResolveData.relativePath,
       clean: true,
+    },
+    devServer: {
+      historyApiFallback: true, // <- возвращает index.html для любых маршрутов
+      hot: true,
+      compress: true,
+      port: 3000,
+      proxy: proxyConfig,
     },
     mode: mode,
     devtool: IS_DEV ? 'source-map' : false,

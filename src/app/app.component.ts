@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.style.scss'],
 })
 export class AppComponent {
-  public Title = 'hack-news';
-  public ImgSrc = 'src/assets/images/header-logo.svg';
+  public title = 'Hack-news';
+  public imgSrc = './assets/images/header-logo.svg';
 
   constructor(private _router: Router) {}
 

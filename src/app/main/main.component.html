@@ -1,14 +1,19 @@
 <div class="news-content">
-  <mat-spinner *ngIf="loading" class="spinner"></mat-spinner>
-  <div *ngIf="!loading && news.hits?.length" class="news-list">
+  <mat-progress-spinner
+    *ngIf="loading"
+    [value]="progress"
+    [mode]="mode"
+    class="spinner"
+  ></mat-progress-spinner>
+  <div *ngIf="!loading && news.hits.length" class="news-list">
     <ng-container *ngFor="let item of news.hits">
       <news-card class="news-card" [item]="item"></news-card>
     </ng-container>
   </div>
   <mat-paginator
-    (page)="loading = true; getNewsList($event)"
+    (page)="getNewsList($event)"
     [hidePageSize]="true"
-    [length]="news?.nbHits"
+    [length]="news.nbHits"
     [pageSize]="20"
     class="paginator"
   ></mat-paginator>

@@ -1,7 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpEventType } from '@angular/common/http';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { INews, NewsService } from '@services/news.service';
-import { Subject, finalize, takeUntil } from 'rxjs';
+import { finalize, Subject, takeUntil } from 'rxjs';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   templateUrl: './main.component.html',
@@ -12,32 +15,72 @@ export class MainComponent implements OnInit, OnDestroy {
     nbHits: 0,
     hits: [],
   };
-  public loading: boolean = false;
+  public mode: ProgressSpinnerMode = 'indeterminate';
+  public loading = true;
+  public progress = 0;
   private _destroy$ = new Subject<void>();
-  constructor(private _newsService: NewsService) {}
 
-  ngOnDestroy(): void {
+  constructor(
+    private _newsService: NewsService,
+    private _matSnackBar: MatSnackBar,
+  ) {}
+
+  public ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
   }
 
-  ngOnInit(): void {
-    this.loading = true;
+  public ngOnInit(): void {
     this.getNewsList();
   }
 
-  getNewsList(event?: PageEvent): void {
+  public getNewsList(pageEvent?: PageEvent): void {
     this._newsService
-      .getAll(event?.pageIndex ? event.pageIndex : 0)
+      .getAll(pageEvent?.pageIndex ?? 0)
       .pipe(
-        takeUntil(this._destroy$),
         finalize(() => {
           this.loading = false;
+          if (this.mode === 'indeterminate') {
+            this.progress = 0;
+          }
         }),
+        takeUntil(this._destroy$),
       )
       .subscribe({
-        next: (value) => {
-          this.news = value;
+        next: (httpEvent) => {
+          switch (httpEvent.type) {
+            case HttpEventType.Sent:
+              this.loading = true;
+              this.progress = 0;
+              this.mode = 'indeterminate';
+              break;
+
+            case HttpEventType.DownloadProgress:
+              if (httpEvent.total) {
+                this.mode = 'determinate';
+                this.progress = Math.round(
+                  (100 * httpEvent.loaded) / httpEvent.total,
+                );
+              } else {
+                this.mode = 'indeterminate';
+              }
+              break;
+
+            case HttpEventType.Response:
+              this.loading = false;
+              this.news = httpEvent.body ?? this.news;
+              this.progress = 100;
+              this.mode = 'determinate';
+              break;
+          }
+        },
+        error: (err) => {
+          this._matSnackBar.open(err, undefined, {
+            panelClass: 'error',
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 2000,
+          });
         },
       });
   }

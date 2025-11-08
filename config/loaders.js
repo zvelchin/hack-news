@@ -37,13 +37,32 @@ module.exports = async function () {
 
   const styleLoader = [
     {
+      test: /\.css$/i,
+      include: /node_modules/,
+      use: [MiniCssExtractPlugin.loader, 'css-loader'],
+    },
+    {
       test: /\.(scss|sass)$/,
-      include: [/\.(global|import)\.(scss|sass)/],
+      include: [
+        /\.(global|import)\.(scss|sass)/,
+        path.resolve(__dirname, '../src/styles.scss'),
+        path.resolve(
+          __dirname,
+          '../node_modules/@angular/material/prebuilt-themes/purple-green.css',
+        ),
+      ],
       use: [MiniCssExtractPlugin.loader, ...cssLoaders],
     },
     {
       test: /\.(scss|sass)$/,
-      exclude: [/\.(global|import)\.(scss|sass)/],
+      exclude: [
+        /\.(global|import)\.(scss|sass)/,
+        path.resolve(__dirname, '../src/styles.scss'),
+        path.resolve(
+          __dirname,
+          '../node_modules/@angular/material/prebuilt-themes/purple-green.css',
+        ),
+      ],
       use: ['to-string-loader', ...cssLoaders],
     },
   ];
