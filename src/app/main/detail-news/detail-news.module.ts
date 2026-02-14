@@ -4,6 +4,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { DetailNewsComponent } from './detail-news.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [DetailNewsComponent],
@@ -12,6 +13,7 @@ import { DetailNewsComponent } from './detail-news.component';
     MatProgressSpinnerModule,
     MatTreeModule,
     MatIconModule,
+    MatButtonModule,
   ],
 })
 export class DetailNewsModule {}

@@ -7,6 +7,7 @@ import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
+  selector: 'main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.style.scss'],
 })

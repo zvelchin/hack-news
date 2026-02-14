@@ -1,0 +1,10 @@
+<div class="modal-shell" role="dialog" aria-modal="true">
+  <header>
+    <h3>{{ author }}</h3>
+    <button (click)="onClose()">✕</button>
+  </header>
+  <section>
+    <p>{{ text }}</p>
+  </section>
+  <footer><button (click)="confirm()">OK</button></footer>
+</div>

@@ -6,7 +6,9 @@ import {
 } from '@angular/material/tree';
 import { ActivatedRoute } from '@angular/router';
 import { IDetailNews, NewsService } from '@services/news.service';
+import { ModalService } from '@shared/modal/services/modal.service';
 import { Subject, finalize, takeUntil } from 'rxjs';
+import { DetailNewsModal } from './components/detail-news-modal.component';
 
 interface IExpandableFlatNode {
   expandable: boolean;
@@ -16,6 +18,7 @@ interface IExpandableFlatNode {
 }
 
 @Component({
+  selector: 'detail-news',
   templateUrl: './detail-news.component.html',
   styleUrls: ['./detail-news.style.scss'],
 })
@@ -54,14 +57,26 @@ export class DetailNewsComponent implements OnInit, OnDestroy {
   constructor(
     private _newsService: NewsService,
     private _activatedRoute: ActivatedRoute,
+    private _modalService: ModalService,
   ) {}
 
-  ngOnDestroy(): void {
+  public open(): void {
+    const modalRef = this._modalService.open(DetailNewsModal, {
+      author: this.dataSource.data[0].author,
+      text: this.dataSource.data[0].text,
+    });
+
+    modalRef.closed.pipe(takeUntil(this._destroy$)).subscribe((result) => {
+      console.log(result);
+    });
+  }
+
+  public ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loading = true;
     this.getNewsForDetailPage();
   }

@@ -9,9 +9,10 @@ import { NewsService } from '@services/news.service';
 import { AppComponent } from './app.component';
 import { NotFoundModule } from './not-found/not-found.module';
 import { AppRoutingModule } from './app.routes';
+import { ModalContainerComponent } from '@shared/modal/components/modal-container.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ModalContainerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
